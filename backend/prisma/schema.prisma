@@ -1,0 +1,491 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id                    String      @id @default(cuid())
+  email                 String      @unique
+  emailVerified         DateTime?
+  name                  String?
+  avatar                String?
+  password              String?
+  age                   Int?
+  country               String?
+  preferredLanguage     String      @default("en")
+  occupation            String?
+  studentStatus         String?
+  incomeRange           String?
+  financialGoals        String[]
+  experienceLevel       String      @default("beginner")
+  
+  // Security & Auth
+  twoFactorSecret       String?
+  twoFactorEnabled      Boolean     @default(false)
+  oauthAccounts         OAuthAccount[]
+  sessions              Session[]
+  refreshTokens         RefreshToken[]
+  
+  // Subscription & Status
+  subscriptionTier      String      @default("free")
+  subscriptionStatus    String      @default("active")
+  stripeCustomerId      String?
+  
+  // Gamification
+  xpPoints              Int         @default(0)
+  currentStreak         Int         @default(0)
+  longestStreak         Int         @default(0)
+  lastActivityDate      DateTime?
+  badges                Badge[]
+  
+  // Relationships
+  expenses              Expense[]
+  budgets               Budget[]
+  goals                 Goal[]
+  lessons               LessonProgress[]
+  quizzes               QuizAttempt[]
+  forumPosts            ForumPost[]
+  forumComments         ForumComment[]
+  aiConversations       AiConversation[]
+  notifications         Notification[]
+  achievements          Achievement[]
+  
+  // Admin & Audit
+  role                  String      @default("user")
+  isActive              Boolean     @default(true)
+  isBlocked             Boolean     @default(false)
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  lastLoginAt           DateTime?
+  
+  @@index([email])
+  @@index([role])
+  @@index([createdAt])
+}
+
+model OAuthAccount {
+  id              String  @id @default(cuid())
+  userId          String
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider        String
+  providerUserId  String
+  email           String?
+  name            String?
+  image           String?
+  
+  createdAt       DateTime @default(now())
+  
+  @@unique([provider, providerUserId])
+  @@index([userId])
+}
+
+model Session {
+  id              String  @id @default(cuid())
+  userId          String
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token           String  @unique
+  expiresAt       DateTime
+  ipAddress       String?
+  userAgent       String?
+  
+  createdAt       DateTime @default(now())
+  
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model RefreshToken {
+  id              String  @id @default(cuid())
+  userId          String
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token           String  @unique
+  expiresAt       DateTime
+  revokedAt       DateTime?
+  
+  createdAt       DateTime @default(now())
+  
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// Learning & Content Management
+model Course {
+  id                  String      @id @default(cuid())
+  title               String
+  description         String      @db.Text
+  slug                String      @unique
+  thumbnail           String?
+  category            String
+  level               String      @default("beginner")
+  duration            Int
+  learningPath        String[]
+  
+  instructor          String?
+  instructorBio       String?
+  instructorImage     String?
+  
+  modules             Module[]
+  content             String      @db.Text
+  keyTakeaways        String[]
+  resources           String[]
+  
+  isPublished         Boolean     @default(false)
+  isPremium           Boolean     @default(false)
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  publishedAt         DateTime?
+  
+  @@index([category])
+  @@index([level])
+  @@index([isPublished])
+}
+
+model Module {
+  id                  String      @id @default(cuid())
+  courseId            String
+  course              Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  title               String
+  description         String      @db.Text
+  order               Int
+  estimatedMinutes    Int
+  
+  lessons             Lesson[]
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  @@unique([courseId, order])
+  @@index([courseId])
+}
+
+model Lesson {
+  id                  String      @id @default(cuid())
+  moduleId            String
+  module              Module      @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  
+  title               String
+  description         String      @db.Text
+  content             String      @db.Text
+  order               Int
+  videoUrl            String?
+  estimatedMinutes    Int
+  
+  quiz                Quiz?
+  progress            LessonProgress[]
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  @@unique([moduleId, order])
+  @@index([moduleId])
+}
+
+model Quiz {
+  id                  String      @id @default(cuid())
+  lessonId            String      @unique
+  lesson              Lesson      @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  title               String
+  passingScore        Int         @default(70)
+  
+  questions           QuizQuestion[]
+  attempts            QuizAttempt[]
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+}
+
+model QuizQuestion {
+  id                  String      @id @default(cuid())
+  quizId              String
+  quiz                Quiz        @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  
+  question            String      @db.Text
+  questionType        String      @default("multiple_choice")
+  order               Int
+  
+  options             QuestionOption[]
+  correctAnswer       String
+  explanation         String      @db.Text
+  
+  createdAt           DateTime    @default(now())
+  
+  @@index([quizId])
+}
+
+model QuestionOption {
+  id                  String      @id @default(cuid())
+  questionId          String
+  question            QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  text                String
+  order               Int
+  
+  @@index([questionId])
+}
+
+model QuizAttempt {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  quizId              String
+  quiz                Quiz        @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  
+  score               Int
+  passed              Boolean
+  answers             Json
+  
+  completedAt         DateTime
+  createdAt           DateTime    @default(now())
+  
+  @@index([userId])
+  @@index([quizId])
+  @@index([createdAt])
+}
+
+model LessonProgress {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  lessonId            String
+  lesson              Lesson      @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  completed           Boolean     @default(false)
+  progress            Int         @default(0)
+  completedAt         DateTime?
+  timeSpentSeconds    Int         @default(0)
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([completed])
+}
+
+// Financial Management
+model Expense {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  description         String
+  amount              Decimal     @db.Decimal(10, 2)
+  currency            String      @default("USD")
+  
+  category            String
+  categoryConfidence  Float       @default(1.0)
+  
+  date                DateTime
+  receipt             String?
+  receiptData         Json?
+  
+  tags                String[]
+  notes               String?
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  @@index([userId])
+  @@index([date])
+  @@index([category])
+}
+
+model Budget {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  category            String
+  monthlyLimit        Decimal     @db.Decimal(10, 2)
+  currency            String      @default("USD")
+  
+  period              String      @default("monthly")
+  startDate           DateTime
+  endDate             DateTime?
+  
+  isActive            Boolean     @default(true)
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  @@unique([userId, category, period])
+  @@index([userId])
+}
+
+model Goal {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title               String
+  description         String?
+  type                String
+  
+  targetAmount        Decimal     @db.Decimal(10, 2)
+  currentAmount       Decimal     @db.Decimal(10, 2) @default(0)
+  currency            String      @default("USD")
+  
+  targetDate          DateTime
+  progress            Int
+  
+  priority            String      @default("medium")
+  status              String      @default("active")
+  
+  category            String?
+  icon                String?
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  completedAt         DateTime?
+  
+  @@index([userId])
+  @@index([status])
+  @@index([targetDate])
+}
+
+// Community & Engagement
+model ForumPost {
+  id                  String      @id @default(cuid())
+  authorId            String
+  author              User        @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  
+  title               String
+  content             String      @db.Text
+  category            String
+  tags                String[]
+  
+  isPinned            Boolean     @default(false)
+  isClosed            Boolean     @default(false)
+  isSpam              Boolean     @default(false)
+  
+  viewCount           Int         @default(0)
+  likeCount           Int         @default(0)
+  commentCount        Int         @default(0)
+  
+  comments            ForumComment[]
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  @@index([category])
+  @@index([createdAt])
+  @@index([isPinned])
+}
+
+model ForumComment {
+  id                  String      @id @default(cuid())
+  postId              String
+  post                ForumPost   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  authorId            String
+  author              User        @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  
+  content             String      @db.Text
+  likeCount           Int         @default(0)
+  
+  isSpam              Boolean     @default(false)
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  @@index([postId])
+  @@index([createdAt])
+}
+
+model AiConversation {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title               String
+  messages            AiMessage[]
+  
+  context             Json?
+  lastMessageAt       DateTime?
+  
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  
+  @@index([userId])
+}
+
+model AiMessage {
+  id                  String      @id @default(cuid())
+  conversationId      String
+  conversation        AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  role                String
+  content             String      @db.Text
+  
+  tokens              Int?
+  model               String?
+  
+  createdAt           DateTime    @default(now())
+  
+  @@index([conversationId])
+}
+
+// Gamification
+model Badge {
+  id                  String      @id @default(cuid())
+  title               String
+  description         String
+  icon                String
+  rarity              String      @default("common")
+  
+  criteria            String
+  
+  users               User[]
+  
+  createdAt           DateTime    @default(now())
+  
+  @@index([rarity])
+}
+
+model Achievement {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  badgeId             String
+  badge               Badge       @relation(fields: [badgeId], references: [id])
+  
+  unlockedAt          DateTime    @default(now())
+  
+  @@unique([userId, badgeId])
+  @@index([userId])
+}
+
+// Notifications & System
+model Notification {
+  id                  String      @id @default(cuid())
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type                String
+  title               String
+  message             String      @db.Text
+  
+  relatedId           String?
+  relatedType         String?
+  
+  isRead              Boolean     @default(false)
+  
+  createdAt           DateTime    @default(now())
+  
+  @@index([userId])
+  @@index([isRead])
+}
