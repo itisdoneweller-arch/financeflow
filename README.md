@@ -1,251 +1,339 @@
-# FinanceFlow - AI-Powered Financial Literacy Platform
+# FinanceFlow 💰
 
-A modern, scalable, and interactive financial education platform that combines AI-driven personalized learning, practical financial management tools, and a supportive community to empower users worldwide.
+An AI-powered financial literacy platform designed to help users learn personal finance, build healthy money habits, and achieve financial freedom through personalized learning, practical tools, and community support.
 
-## 🎯 Mission
+## 🌟 Features
 
-To democratize financial literacy and help people of all ages, income levels, and countries learn to manage money, build healthy financial habits, and achieve financial freedom through engaging, trustworthy, and accessible educational experiences.
+### 📚 Interactive Learning
+- **AI-Personalized Courses** - Adaptive learning paths based on user profile and goals
+- **Expert Lessons** - Comprehensive modules covering financial concepts
+- **Interactive Quizzes** - Test knowledge with gamified assessments
+- **Progress Tracking** - Monitor learning journey with detailed analytics
 
-## ✨ Key Features
+### 💳 Financial Management Tools
+- **Smart Expense Tracking** - AI-powered receipt scanning and categorization
+- **Budget Planning** - Set category budgets and track spending
+- **Financial Goals** - Create and monitor savings and investment targets
+- **Reports & Analytics** - Visualize spending patterns and financial health
 
-### 📚 Educational Core
-- **Personalized Learning Paths** - AI-generated courses based on user profile (age, occupation, income, goals)
-- **Interactive Modules** - 10 comprehensive modules from Money Basics to Entrepreneurship
-- **Multi-Format Content** - Articles, videos, quizzes, and interactive exercises
-- **Progress Tracking** - Certificates and achievement badges
-- **AI Financial Assistant** - Natural language chat for financial concept explanations
+### 🤖 AI Financial Assistant
+- **Educational Chatbot** - Get personalized financial advice and guidance
+- **Learning Path Generation** - Custom learning recommendations
+- **Receipt Analysis** - Automatic expense categorization from images
+- **Real-time Support** - WebSocket-based instant responses
 
-### 💰 Financial Management Tools
-- **Expense Tracker** - Manual entry, receipt upload with AI categorization
-- **Budget Manager** - Create, track, and optimize budgets
-- **Financial Calculators** - Savings, loans, investments, retirement planning, etc.
-- **Goal Tracker** - Set and monitor financial milestones
-- **Advanced Analytics** - Spending trends, savings progress, financial health score
+### 👥 Community Features
+- **Discussion Forums** - Connect with other learners
+- **Knowledge Sharing** - Share tips and experiences
+- **Peer Support** - Ask questions and help others
+- **Expert Moderation** - Quality discussions maintained
 
-### 🎮 Engagement & Gamification
-- **XP Points & Badges** - Reward learning and consistent habits
-- **Daily Streaks** - Encourage regular platform usage
-- **Leaderboards & Challenges** - Monthly savings competitions and weekly challenges
-- **Weekly Financial Tips** - Curated, actionable advice
+### 🏆 Gamification
+- **Achievement Badges** - Unlock badges for milestones
+- **Streaks & Challenges** - Maintain learning streaks
+- **Leaderboards** - Friendly competitions
+- **XP Points** - Earn points for activities
 
-### 🛡️ Security & Trust
-- **Scam Awareness Center** - Educational content on fraud prevention
-- **Financial News** - Personalized feed on global finance, investing, and economy
-- **Community Forum** - Ask questions, share experiences, support others
-- **Clear Disclaimers** - All AI guidance is educational, not personalized advice
-
-### 👤 User Management
-- **Multi-Auth Options** - Email/password, Google OAuth, Apple Sign-in
-- **Personalized Dashboard** - Real-time financial overview and recommendations
-- **Two-Factor Authentication** - Enhanced security
-- **Profile Settings** - Customizable preferences and language
-
-### 📱 Admin & Analytics
-- **Admin Dashboard** - Manage users, courses, content, community, and analytics
-- **Role-Based Access Control** - Granular permission management
-- **Comprehensive Reporting** - User engagement, learning metrics, platform analytics
-- **Notification Management** - Schedule reminders, tips, and alerts
-
-## 🏗️ Technology Stack
-
-### Frontend
-- **Framework**: Next.js 14+ (React)
-- **Styling**: Tailwind CSS + Shadcn/ui
-- **State Management**: Zustand or Redux Toolkit
-- **Real-time**: Socket.io or Supabase Real-time
-- **Forms**: React Hook Form + Zod validation
-- **Charts**: Recharts or Chart.js
-- **Authentication**: NextAuth.js
-- **PWA**: Next.js PWA plugin
-
-### Backend
-- **Runtime**: Node.js with Express/Fastify
-- **API**: RESTful + GraphQL (Apollo)
-- **Database**: PostgreSQL + Prisma ORM
-- **Cache**: Redis
-- **File Storage**: AWS S3 / Supabase Storage
-- **Email**: SendGrid or Resend
-- **Authentication**: JWT + OAuth 2.0
-
-### AI & ML
-- **LLM Integration**: OpenAI API / Anthropic Claude / Google Gemini
-- **Embeddings**: For semantic search and recommendations
-- **Receipt OCR**: AWS Textract or similar
-- **Categorization**: Custom ML model or LLM-based
-
-### Infrastructure
-- **Hosting**: Vercel (frontend), Railway/Render/AWS (backend)
-- **Database**: AWS RDS / Supabase
-- **CDN**: Cloudflare
-- **Monitoring**: Sentry, LogRocket
-- **Analytics**: Plausible or Mixpanel
-- **DevOps**: Docker, GitHub Actions
-
-## 📁 Project Structure
-
-```
-financeflow/
-├── frontend/                 # Next.js application
-│   ├── app/                 # App router
-│   ├── components/          # Reusable UI components
-│   ├── pages/              # Legacy page routes
-│   ├── styles/             # Global styles
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Utilities and helpers
-│   ├── public/             # Static assets
-│   └── next.config.js      # Next.js configuration
-├── backend/                 # Node.js/Express API
-│   ├── src/
-│   │   ├── routes/         # API endpoints
-│   │   ├── controllers/    # Request handlers
-│   │   ├── services/       # Business logic
-│   │   ├── models/         # Database models
-│   │   ├── middleware/     # Express middleware
-│   │   ├── utils/          # Helper functions
-│   │   ├── ai/             # AI integration
-│   │   ├── validators/     # Input validation
-│   │   └── config/         # Configuration
-│   ├── prisma/             # Database schema
-│   ├── tests/              # Unit & integration tests
-│   └── docker/             # Docker configuration
-├── docs/                    # Documentation
-│   ├── API.md              # API documentation
-│   ├── DATABASE.md         # Database schema
-│   ├── ARCHITECTURE.md     # System architecture
-│   └── DEPLOYMENT.md       # Deployment guide
-├── scripts/                # Setup and utility scripts
-├── docker-compose.yml      # Local development setup
-├── .github/
-│   └── workflows/          # CI/CD pipelines
-└── README.md
-```
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 18+
 - PostgreSQL 14+
 - Redis 6+
-- Git
+- Docker & Docker Compose (optional)
 
-### Local Development
+### Development Setup
 
-1. **Clone the repository**
 ```bash
+# Clone repository
 git clone https://github.com/itisdoneweller-arch/financeflow.git
 cd financeflow
-```
 
-2. **Setup with Docker Compose** (Recommended)
-```bash
+# Start services with Docker
 docker-compose up -d
-```
 
-3. **Install dependencies**
-```bash
-# Frontend
+# Install dependencies
 cd frontend && npm install
-
-# Backend
 cd ../backend && npm install
-```
 
-4. **Setup environment variables**
-```bash
-# Backend
+# Setup environment variables
+cp frontend/.env.example frontend/.env.local
 cp backend/.env.example backend/.env.local
 
-# Frontend
-cp frontend/.env.example frontend/.env.local
-```
-
-5. **Initialize database**
-```bash
+# Initialize database
 cd backend
 npx prisma migrate dev
 npx prisma db seed
+
+# Start development servers
+# Terminal 1 - Backend
+cd backend && npm run dev
+
+# Terminal 2 - Frontend  
+cd frontend && npm run dev
 ```
 
-6. **Start development servers**
-```bash
-# Terminal 1: Backend (from backend directory)
-npm run dev
+**Access Points:**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:3001
+- Database UI (Prisma Studio): http://localhost:5555
 
-# Terminal 2: Frontend (from frontend directory)
-npm run dev
+## 📁 Project Structure
+
+```
+financeflow/
+├── frontend/                 # Next.js 14 React application
+│   ├── app/                 # Next.js App Router
+│   ├── components/          # Reusable React components
+│   ├── lib/                 # Utilities and helpers
+│   ├── styles/              # Tailwind CSS styles
+│   └── public/              # Static assets
+├── backend/                 # Node.js/Express REST API
+│   ├── src/
+│   │   ├── index.ts         # Application entry point
+│   │   ├── config/          # Configuration (DB, Redis, etc.)
+│   │   ├── middleware/      # Express middleware
+│   │   ├── routes/          # API route definitions
+│   │   ├── services/        # Business logic
+│   │   ├── ai/              # AI service integrations
+│   │   ├── types/           # TypeScript type definitions
+│   │   └── utils/           # Helper utilities
+│   ├── prisma/
+│   │   ├── schema.prisma    # Database schema
+│   │   └── migrations/      # Database migrations
+│   └── tests/               # Test files
+├── docs/                    # Documentation
+│   ├── API.md              # API endpoint documentation
+│   ├── DEPLOYMENT.md       # Deployment instructions
+│   └── GETTING_STARTED.md  # Getting started guide
+├── .github/
+│   └── workflows/          # GitHub Actions CI/CD
+├── docker-compose.yml      # Docker Compose config
+├── CONTRIBUTING.md         # Contribution guidelines
+├── SECURITY.md             # Security policy
+└── README.md               # This file
 ```
 
-Access the application at `http://localhost:3000`
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework:** Next.js 14 (React 18)
+- **Styling:** Tailwind CSS + shadcn/ui components
+- **State Management:** Zustand
+- **Forms:** React Hook Form + Zod
+- **HTTP Client:** Axios
+- **Charts:** Recharts
+- **Real-time:** Socket.io
+- **Auth:** NextAuth.js
+- **Testing:** Jest + React Testing Library
+
+### Backend
+- **Runtime:** Node.js 18+
+- **Framework:** Express.js
+- **Language:** TypeScript
+- **Database:** PostgreSQL 14+ (Prisma ORM)
+- **Cache:** Redis
+- **Real-time:** Socket.io
+- **Authentication:** JWT
+- **AI Services:** OpenAI, Anthropic, Google AI
+- **Email:** SendGrid
+- **File Storage:** AWS S3
+- **Task Queue:** Bull
+- **Logging:** Pino
+- **Validation:** Zod
+
+### DevOps
+- **Containerization:** Docker
+- **Orchestration:** Docker Compose
+- **CI/CD:** GitHub Actions
+- **Deployment:** Vercel (frontend), Railway/Render (backend)
+- **Database:** AWS RDS
+- **Cache:** ElastiCache
+- **CDN:** Cloudflare
 
 ## 📖 Documentation
 
-- [API Documentation](./docs/API.md)
-- [Database Schema](./docs/DATABASE.md)
-- [System Architecture](./docs/ARCHITECTURE.md)
-- [Deployment Guide](./docs/DEPLOYMENT.md)
-- [Contributing Guidelines](./CONTRIBUTING.md)
+- **[Getting Started](./docs/GETTING_STARTED.md)** - Setup and first steps
+- **[API Documentation](./docs/API.md)** - Comprehensive API reference
+- **[Deployment Guide](./docs/DEPLOYMENT.md)** - Production deployment
+- **[Contributing Guide](./CONTRIBUTING.md)** - How to contribute
+- **[Security Policy](./SECURITY.md)** - Security guidelines
 
-## 🔐 Security
+## 🧪 Testing
 
-- All passwords hashed with bcrypt
-- JWT tokens for API authentication
-- OAuth 2.0 for third-party auth
-- SQL injection prevention with parameterized queries
-- XSS protection with input sanitization
-- CSRF tokens for state-changing operations
-- Rate limiting on API endpoints
-- SSL/TLS encryption in transit
-- Regular security audits
+```bash
+# Run all tests
+npm test
 
-## 📊 Features Roadmap
+# Run with coverage
+npm run test:coverage
 
-### Phase 1 (MVP) - Months 1-3
-- [ ] User authentication and profiles
-- [ ] Dashboard with basic overview
-- [ ] Expense tracker
-- [ ] 3 core learning modules
-- [ ] AI chat assistant
-- [ ] Basic calculators
+# Watch mode
+npm run test:watch
 
-### Phase 2 - Months 4-6
-- [ ] Complete 10-module curriculum
-- [ ] Advanced analytics
-- [ ] Community forum
-- [ ] Gamification system
-- [ ] Admin dashboard
+# Run specific test
+npm test -- auth.test.ts
+```
 
-### Phase 3 - Months 7-9
-- [ ] Mobile app (React Native)
-- [ ] Multi-language support
-- [ ] Open banking integration
-- [ ] Portfolio tracking
-- [ ] Financial coaching marketplace
+## 📝 Available Commands
 
-### Phase 4 - Months 10-12
-- [ ] Subscription tiers
-- [ ] Advanced AI features
-- [ ] API marketplace
-- [ ] Family budget sharing
-- [ ] Business finance tools
+### Frontend
+```bash
+cd frontend
+
+npm run dev          # Start development server
+npm run build        # Build for production
+npm start            # Start production server
+npm run lint         # Run ESLint
+npm run format       # Format code with Prettier
+npm run type-check   # Check TypeScript
+npm test             # Run tests
+npm run test:watch   # Run tests in watch mode
+npm run test:coverage # Generate coverage report
+```
+
+### Backend
+```bash
+cd backend
+
+npm run dev          # Start development server (with hot reload)
+npm run build        # Compile TypeScript
+npm start            # Start production server
+npm run lint         # Run ESLint
+npm run format       # Format code with Prettier
+npm run type-check   # Check TypeScript types
+npm test             # Run tests
+npm run test:watch   # Run tests in watch mode
+npm run test:coverage # Generate coverage report
+
+# Database commands
+npm run db:migrate   # Run pending migrations
+npm run db:generate  # Generate Prisma client
+npm run db:seed      # Seed database with initial data
+npm run db:reset     # Reset database (development only)
+npm run db:studio    # Open Prisma Studio UI
+```
+
+## 🌍 Environment Variables
+
+### Backend (.env.local)
+```env
+# Server
+NODE_ENV=development
+PORT=3001
+
+# Database
+DATABASE_URL=postgresql://financeflow:password@localhost:5432/financeflow_dev
+
+# Redis
+REDIS_URL=redis://localhost:6379
+
+# JWT
+JWT_SECRET=your-secret-key
+JWT_EXPIRE=24h
+REFRESH_TOKEN_EXPIRE=7d
+
+# AI APIs
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GOOGLE_AI_API_KEY=...
+
+# Email
+SENDGRID_API_KEY=SG....
+EMAIL_FROM=noreply@financeflow.com
+
+# AWS
+AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+AWS_REGION=us-east-1
+AWS_S3_BUCKET=financeflow-dev
+
+# Logging
+LOG_LEVEL=debug
+
+# CORS
+CORS_ORIGIN=http://localhost:3000
+```
+
+### Frontend (.env.local)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-secret
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+```
+
+## 🚀 Deployment
+
+### Quick Deploy (Staging)
+```bash
+git push origin develop  # Triggers auto-deploy to staging
+```
+
+### Production Deploy
+```bash
+git push origin main     # Triggers auto-deploy to production
+```
+
+See [DEPLOYMENT.md](./docs/DEPLOYMENT.md) for detailed instructions.
+
+## 🔒 Security
+
+- ✅ JWT-based authentication with refresh tokens
+- ✅ Bcrypt password hashing
+- ✅ OAuth 2.0 support (Google, Apple)
+- ✅ Two-factor authentication (TOTP)
+- ✅ Rate limiting and CORS protection
+- ✅ SQL injection prevention (Prisma)
+- ✅ XSS protection
+- ✅ CSRF tokens
+- ✅ Environment variable validation
+- ✅ Regular security audits
+
+See [SECURITY.md](./SECURITY.md) for security policy and reporting.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+We welcome contributions! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for:
+- Code of conduct
+- Development setup
+- Branch naming conventions
+- Commit message guidelines
+- Pull request process
+- Code style standards
+- Testing requirements
+
+### Quick Contribution Flow
+```bash
+# 1. Create feature branch
+git checkout -b feature/your-feature
+
+# 2. Make changes and commit
+git commit -m "feat(scope): description"
+
+# 3. Push and create PR
+git push origin feature/your-feature
+```
+
+## 📞 Support
+
+- **Documentation:** [docs/](./docs)
+- **Issues:** [GitHub Issues](https://github.com/itisdoneweller-arch/financeflow/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/itisdoneweller-arch/financeflow/discussions)
+- **Email:** support@financeflow.com
+- **Security:** security@financeflow.com
 
 ## 📄 License
 
-MIT License - See [LICENSE](./LICENSE) file for details
+MIT License - see [LICENSE](./LICENSE) file for details
 
-## 📧 Contact & Support
+## 🎯 Vision
 
-- Email: support@financeflow.com
-- Documentation: [docs.financeflow.com](https://docs.financeflow.com)
-- Community Forum: [community.financeflow.com](https://community.financeflow.com)
-
-## 🙏 Acknowledgments
-
-Built with ❤️ to make financial literacy accessible to everyone, everywhere.
+To democratize financial literacy and empower millions of people to take control of their financial futures through AI-powered education, practical tools, and community support.
 
 ---
 
-**FinanceFlow** - Empower your financial future through learning and smart decisions.
+**Made with ❤️ by the FinanceFlow Team**
+
+Join us in building the future of financial education! 🚀
